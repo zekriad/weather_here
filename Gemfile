@@ -19,6 +19,9 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+gem "interactor", "~> 3.0"
+gem "faraday", "~> 2.12.0"
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -37,9 +40,9 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem 'pry', '~> 0.14.2'
-  gem 'rspec-rails', '~> 7.0.0'
-  gem 'factory_bot_rails'
+  gem "pry", "~> 0.14.2"
+  gem "rspec-rails", "~> 7.0.0"
+  gem "factory_bot_rails", "~> 6.4.3"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
