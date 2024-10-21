@@ -3,6 +3,7 @@
 This demo app exposes 2 endpoints: `GET /api/forecasts/zip/:zip` & `GET /api/forecasts/address/:address`.
 Both return current weather conditions for the location.
 Caching and logic are contained in `/app/interactors/forecast/`.
+Basic RSpec tests in `/spec/`.
 
 The exclusion of ActiveRecord models in this project was an intentional choice.
 The Rails cache has the features required and does not need any infrastructure or setup.
