@@ -1,24 +1,28 @@
-# README
+# WeatherHere Demo App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This demo app exposes 2 endpoints: `GET /api/forecasts/zip/:zip` & `GET /api/forecasts/address/:address`.
+Both return current weather conditions for the location.
+Caching and logic are contained in `/app/interactors/forecast/`.
 
-Things you may want to cover:
+The exclusion of ActiveRecord models in this project was an intentional choice.
+The Rails cache has the features required and does not need any infrastructure or setup.
 
-* Ruby version
+### Improvements
+Any address works, as long as it ends in a zip code. This is an obvious place that needs improvement.
+Another improvement would be a static zip/coordinate yaml file loaded into memory on startup.
 
-* System dependencies
+### Demo
+`rails dev:cache`
+`rails s`
 
-* Configuration
+```
+❯ curl localhost:3000/api/forecasts/zip/90210.json
+{"starts_at":"2024-10-21T07:00:00-07:00","ends_at":"2024-10-21T08:00:00-07:00","temperature":64,"short_forecast":"Mostly Sunny","icon":"https://api.weather.gov/icons/land/day/sct?size=small","cached":false}%
 
-* Database creation
+❯ curl localhost:3000/api/forecasts/zip/90210.json
+{"starts_at":"2024-10-21T07:00:00-07:00","ends_at":"2024-10-21T08:00:00-07:00","temperature":64,"short_forecast":"Mostly Sunny","icon":"https://api.weather.gov/icons/land/day/sct?size=small","cached":true}%
 
-* Database initialization
+❯ curl localhost:3000/api/forecasts/address/hiya%20st%2090210.json
+{"starts_at":"2024-10-21T07:00:00-07:00","ends_at":"2024-10-21T08:00:00-07:00","temperature":64,"short_forecast":"Mostly Sunny","icon":"https://api.weather.gov/icons/land/day/sct?size=small","cached":true}
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
