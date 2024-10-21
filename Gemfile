@@ -19,6 +19,7 @@ gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
+gem "ostruct" # required by interactor
 gem "interactor", "~> 3.0"
 gem "faraday", "~> 2.12.0"
 

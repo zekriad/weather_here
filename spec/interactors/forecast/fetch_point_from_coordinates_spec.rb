@@ -30,8 +30,8 @@ RSpec.describe Forecast::FetchPointFromCoordinates do
       end
     end
 
-    context "with an invalid zip" do
-      subject(:context) { Forecast::FetchCoordinatesFromZip.call(zip: "XXXXX") }
+    context "without coordinates" do
+      subject(:context) { Forecast::FetchPointFromCoordinates.call }
 
       it "fails with an error" do
         expect(context).to be_a_failure
