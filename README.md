@@ -8,9 +8,13 @@ Basic RSpec tests in `/spec/`.
 The exclusion of ActiveRecord models in this project was an intentional choice.
 The Rails cache has the features required and does not need any infrastructure or setup.
 
+The basic flow is zip->coordinates->gridpoint->forecast.
+
 ### Improvements
 Any address works, as long as it ends in a zip code. This is an obvious place that needs improvement.
 Another improvement would be a static zip/coordinate yaml file loaded into memory on startup.
+Improved error handling: the client doesn't need to know the errors, but error behavior could be
+customized. Raising a louder alarm if an external API stops responding, for example.
 
 ### Demo
 `rails dev:cache`
