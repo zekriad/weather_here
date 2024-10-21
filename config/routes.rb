@@ -10,5 +10,14 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "forecasts#index"
+
+  namespace :api do
+    resources :forecasts, only: [] do
+      collection do
+        get "address/:address", action: :address
+        get "zip/:zip", action: :zip
+      end
+    end
+  end
 end

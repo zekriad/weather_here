@@ -1,4 +1,3 @@
-
 class Forecast::FetchForecastForPoint
   include Interactor
 
@@ -6,13 +5,22 @@ class Forecast::FetchForecastForPoint
   # Sets context forecast
 
   FORECAST_HOST = "https://api.weather.gov"
+  FORECAST_TIMEOUT = 30.minutes
 
-  ForecastData = Struct.new(:starts_at, :ends_at, :temperature, :short_forecast, :icon)
+  ForecastData = Struct.new(:starts_at, :ends_at, :temperature, :short_forecast, :icon, :cached)
 
   def call
     context.fail!(error: "Missing point") unless valid_point?
 
-    response_json = parse_response(fetch_forecast)
+    cached = true
+    p = context.point
+    cache_key = "forecasts:#{p.id}/#{p.x},#{p.y}"
+    body = Rails.cache.fetch(cache_key, expires_in: FORECAST_TIMEOUT) do
+      cached = false
+      fetch_forecast.body
+    end
+
+    response_json = parse_response(body)
 
     current_forecast = response_json.dig("properties", "periods")&.first
     context.fail!(error: "No forecast") unless current_forecast
@@ -23,22 +31,23 @@ class Forecast::FetchForecastForPoint
     short_forecast = current_forecast["shortForecast"]
     icon = current_forecast["icon"]
 
-    set_forecast(starts_at, ends_at, temperature, short_forecast, icon)
+    set_forecast(starts_at, ends_at, temperature, short_forecast, icon, cached)
   end
 
   private
 
-  def set_forecast(starts_at, ends_at, temperature, short_forecast, icon)
+  def set_forecast(starts_at, ends_at, temperature, short_forecast, icon, cached)
     context.forecast = ForecastData.new(starts_at: starts_at,
                                         ends_at: ends_at,
                                         temperature: temperature,
                                         short_forecast: short_forecast,
-                                        icon: icon)
+                                        icon: icon,
+                                        cached: cached)
   end
 
-  def parse_response(response)
+  def parse_response(body)
     begin
-      JSON.parse(response.body)
+      JSON.parse(body)
     rescue StandardError => e
       context.fail!(error: e)
     end

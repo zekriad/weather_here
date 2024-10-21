@@ -61,7 +61,10 @@ RSpec.describe Forecast::FetchForecastForPoint do
         expect(f.temperature).to eq 67
         expect(f.short_forecast).to eq "Mostly Clear"
         expect(f.icon).to eq "https://api.weather.gov/icons/land/night/few?size=small"
+        expect(f.cached).to be_falsey
       end
+
+      pending "caches forecasts"
     end
 
     context "with a missing point" do

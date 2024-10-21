@@ -6,13 +6,19 @@ class Forecast::FetchPointFromCoordinates
   # Sets context point
 
   WEATHER_HOST = "https://api.weather.gov"
+  POINTS_TIMEOUT = 1.month
 
   Point = Struct.new(:id, :x, :y)
 
   def call
     context.fail!(error: "Missing latitude & longitude") unless valid_coordinates?
 
-    response_json = parse_response(fetch_point)
+    cache_key = "points:#{context.latitude},#{context.longitude}"
+    body = Rails.cache.fetch(cache_key, expires_in: POINTS_TIMEOUT) do
+      fetch_point.body
+    end
+
+    response_json = parse_response(body)
 
     p_id = response_json.dig("properties", "gridId")
     px = response_json.dig("properties", "gridX")
@@ -28,9 +34,9 @@ class Forecast::FetchPointFromCoordinates
     context.point = Point.new(id: id, x: x, y: y)
   end
 
-  def parse_response(response)
+  def parse_response(body)
     begin
-      JSON.parse(response.body)
+      JSON.parse(body)
     rescue StandardError => e
       context.fail!(error: e)
     end
