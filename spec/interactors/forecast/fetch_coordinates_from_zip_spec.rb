@@ -1,27 +1,26 @@
 require "rails_helper"
 
-EX_RESP_BODY = <<~JSON
-  {
-    "post code": "90210",
-    "country": "United States",
-    "country abbreviation": "US",
-    "places": [
-      {
-        "place name": "Beverly Hills",
-        "longitude": "-118.4065",
-        "state": "California",
-        "state abbreviation": "CA",
-        "latitude": "34.0901"
-      }
-    ]
-  }
-  JSON
-
 RSpec.describe Forecast::FetchCoordinatesFromZip do
   describe ".call" do
     context "with a valid zip" do
       subject(:context) { Forecast::FetchCoordinatesFromZip.call(zip: "90210") }
-      let(:response) { double(:response, body: EX_RESP_BODY) }
+      let(:response_body) { <<~JSON }
+        {
+          "post code": "90210",
+          "country": "United States",
+          "country abbreviation": "US",
+          "places": [
+            {
+              "place name": "Beverly Hills",
+              "longitude": "-118.4065",
+              "state": "California",
+              "state abbreviation": "CA",
+              "latitude": "34.0901"
+            }
+          ]
+        }
+        JSON
+      let(:response) { double(:response, body: response_body) }
 
       it "fetches and sets coordinates" do
         allow(Faraday).to receive(:get).with("https://api.zippopotam.us/us/90210").and_return(response)
