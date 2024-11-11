@@ -42,7 +42,7 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "pry", "~> 0.14.2"
-  gem "rspec-rails", "~> 7.0.0"
+  gem "rspec-rails", "~> 7.1.0"
   gem "factory_bot_rails", "~> 6.4.3"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
