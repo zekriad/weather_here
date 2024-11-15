@@ -172,7 +172,7 @@ GEM
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
-    pry (0.14.2)
+    pry (0.15.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
     psych (5.1.2)
@@ -350,7 +350,7 @@ DEPENDENCIES
   interactor (~> 3.0)
   jbuilder
   ostruct
-  pry (~> 0.14.2)
+  pry (~> 0.15.0)
   puma (>= 5.0)
   rails (~> 7.2.1, >= 7.2.1.1)
   rspec-rails (~> 7.0.0)
