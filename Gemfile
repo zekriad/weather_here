@@ -21,7 +21,7 @@ gem "jbuilder"
 
 gem "ostruct" # required by interactor
 gem "interactor", "~> 3.0"
-gem "faraday", "~> 2.12.0"
+gem "faraday", "~> 2.12.2"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
